@@ -53,7 +53,9 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   Category: 'Category',
-  Thread: 'Thread'
+  Thread: 'Thread',
+  Reply: 'Reply',
+  Song: 'Song'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -104,6 +106,28 @@ export const ThreadScalarFieldEnum = {
 } as const
 
 export type ThreadScalarFieldEnum = (typeof ThreadScalarFieldEnum)[keyof typeof ThreadScalarFieldEnum]
+
+
+export const ReplyScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  createdAt: 'createdAt',
+  threadId: 'threadId',
+  authorId: 'authorId'
+} as const
+
+export type ReplyScalarFieldEnum = (typeof ReplyScalarFieldEnum)[keyof typeof ReplyScalarFieldEnum]
+
+
+export const SongScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  fileUrl: 'fileUrl',
+  createdAt: 'createdAt',
+  uploaderId: 'uploaderId'
+} as const
+
+export type SongScalarFieldEnum = (typeof SongScalarFieldEnum)[keyof typeof SongScalarFieldEnum]
 
 
 export const SortOrder = {

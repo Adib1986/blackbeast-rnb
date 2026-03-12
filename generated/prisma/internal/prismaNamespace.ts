@@ -386,7 +386,9 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   User: 'User',
   Category: 'Category',
-  Thread: 'Thread'
+  Thread: 'Thread',
+  Reply: 'Reply',
+  Song: 'Song'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -402,7 +404,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "category" | "thread"
+    modelProps: "user" | "category" | "thread" | "reply" | "song"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -628,6 +630,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Reply: {
+      payload: Prisma.$ReplyPayload<ExtArgs>
+      fields: Prisma.ReplyFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ReplyFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReplyPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ReplyFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReplyPayload>
+        }
+        findFirst: {
+          args: Prisma.ReplyFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReplyPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ReplyFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReplyPayload>
+        }
+        findMany: {
+          args: Prisma.ReplyFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReplyPayload>[]
+        }
+        create: {
+          args: Prisma.ReplyCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReplyPayload>
+        }
+        createMany: {
+          args: Prisma.ReplyCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ReplyCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReplyPayload>[]
+        }
+        delete: {
+          args: Prisma.ReplyDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReplyPayload>
+        }
+        update: {
+          args: Prisma.ReplyUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReplyPayload>
+        }
+        deleteMany: {
+          args: Prisma.ReplyDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ReplyUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ReplyUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReplyPayload>[]
+        }
+        upsert: {
+          args: Prisma.ReplyUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReplyPayload>
+        }
+        aggregate: {
+          args: Prisma.ReplyAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateReply>
+        }
+        groupBy: {
+          args: Prisma.ReplyGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ReplyGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ReplyCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ReplyCountAggregateOutputType> | number
+        }
+      }
+    }
+    Song: {
+      payload: Prisma.$SongPayload<ExtArgs>
+      fields: Prisma.SongFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SongFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SongPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SongFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SongPayload>
+        }
+        findFirst: {
+          args: Prisma.SongFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SongPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SongFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SongPayload>
+        }
+        findMany: {
+          args: Prisma.SongFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SongPayload>[]
+        }
+        create: {
+          args: Prisma.SongCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SongPayload>
+        }
+        createMany: {
+          args: Prisma.SongCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SongCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SongPayload>[]
+        }
+        delete: {
+          args: Prisma.SongDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SongPayload>
+        }
+        update: {
+          args: Prisma.SongUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SongPayload>
+        }
+        deleteMany: {
+          args: Prisma.SongDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SongUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SongUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SongPayload>[]
+        }
+        upsert: {
+          args: Prisma.SongUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SongPayload>
+        }
+        aggregate: {
+          args: Prisma.SongAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSong>
+        }
+        groupBy: {
+          args: Prisma.SongGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SongGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SongCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SongCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -699,6 +849,28 @@ export const ThreadScalarFieldEnum = {
 } as const
 
 export type ThreadScalarFieldEnum = (typeof ThreadScalarFieldEnum)[keyof typeof ThreadScalarFieldEnum]
+
+
+export const ReplyScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  createdAt: 'createdAt',
+  threadId: 'threadId',
+  authorId: 'authorId'
+} as const
+
+export type ReplyScalarFieldEnum = (typeof ReplyScalarFieldEnum)[keyof typeof ReplyScalarFieldEnum]
+
+
+export const SongScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  fileUrl: 'fileUrl',
+  createdAt: 'createdAt',
+  uploaderId: 'uploaderId'
+} as const
+
+export type SongScalarFieldEnum = (typeof SongScalarFieldEnum)[keyof typeof SongScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -847,6 +1019,8 @@ export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   category?: Prisma.CategoryOmit
   thread?: Prisma.ThreadOmit
+  reply?: Prisma.ReplyOmit
+  song?: Prisma.SongOmit
 }
 
 /* Types for Logging */

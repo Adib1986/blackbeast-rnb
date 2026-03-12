@@ -15,11 +15,13 @@ model User {
   role          Role     @default(USER)
   approved      Boolean  @default(false)
   isBlocked     Boolean  @default(false)
+  isVip         Boolean  @default(false)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
   threads       Thread[]
   replies       Reply[]
+  songs         Song[]
 }
 
 model Category {
@@ -56,6 +58,16 @@ model Reply {
 
   authorId  String
   author    User     @relation(fields: [authorId], references: [id])
+}
+
+model Song {
+  id         String   @id @default(cuid())
+  title      String
+  fileUrl    String
+  createdAt  DateTime @default(now())
+
+  uploaderId String
+  uploader   User     @relation(fields: [uploaderId], references: [id])
 }
 
 enum Role {

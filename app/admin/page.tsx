@@ -7,6 +7,7 @@ import ApproveUserButton from "@/components/approve-user-button";
 import DeleteUserButton from "@/components/delete-user-button";
 import ToggleBlockUserButton from "@/components/toggle-block-user-button";
 import ToggleRoleUserButton from "@/components/toggle-role-user-button";
+import ToggleVipUserButton from "@/components/toggle-vip-user-button";
 
 export default async function AdminPage() {
   const session = await auth();
@@ -67,11 +68,18 @@ export default async function AdminPage() {
               Zum Forum
             </Link>
 
+            <Link
+              href="/vip"
+              className="rounded-2xl border border-fuchsia-500/30 bg-fuchsia-500/10 px-5 py-3 font-semibold text-fuchsia-300 transition hover:scale-105"
+            >
+              VIP Area
+            </Link>
+
             <LogoutButton />
           </div>
         </div>
 
-        <div className="mb-8 grid gap-4 md:grid-cols-3">
+        <div className="mb-8 grid gap-4 md:grid-cols-4">
           <div className="rounded-3xl border border-zinc-800 bg-zinc-900/70 p-5 shadow-2xl">
             <p className="text-sm uppercase tracking-[0.2em] text-zinc-500">
               Gesamt
@@ -103,14 +111,23 @@ export default async function AdminPage() {
             </p>
             <p className="mt-2 text-sm text-zinc-400">User mit Admin-Rechten</p>
           </div>
+
+          <div className="rounded-3xl border border-zinc-800 bg-zinc-900/70 p-5 shadow-2xl">
+            <p className="text-sm uppercase tracking-[0.2em] text-zinc-500">
+              VIP
+            </p>
+            <p className="mt-3 text-3xl font-extrabold text-fuchsia-300">
+              {allUsers.filter((user) => user.isVip).length}
+            </p>
+            <p className="mt-2 text-sm text-zinc-400">VIP freigeschaltete User</p>
+          </div>
         </div>
 
         <div className="mb-8 rounded-3xl border border-zinc-800 bg-zinc-900/70 p-6 shadow-2xl">
           <div className="mb-6">
             <h2 className="text-2xl font-bold text-white">Wartende User</h2>
             <p className="mt-2 text-sm text-zinc-400">
-              Hier siehst du alle neu registrierten User, die noch nicht
-              freigeschaltet wurden.
+              Hier siehst du alle neu registrierten User, die noch nicht freigeschaltet wurden.
             </p>
           </div>
 
@@ -131,8 +148,7 @@ export default async function AdminPage() {
                     </p>
                     <p className="text-sm text-zinc-300">{user.email}</p>
                     <p className="mt-1 text-xs text-zinc-500">
-                      Registriert am:{" "}
-                      {new Date(user.createdAt).toLocaleString("de-DE")}
+                      Registriert am: {new Date(user.createdAt).toLocaleString("de-DE")}
                     </p>
                   </div>
 
@@ -178,8 +194,7 @@ export default async function AdminPage() {
                       </p>
                       <p className="text-sm text-zinc-300">{user.email}</p>
                       <p className="mt-1 text-xs text-zinc-500">
-                        Registriert am:{" "}
-                        {new Date(user.createdAt).toLocaleString("de-DE")}
+                        Registriert am: {new Date(user.createdAt).toLocaleString("de-DE")}
                       </p>
                     </div>
 
@@ -210,10 +225,23 @@ export default async function AdminPage() {
                         {user.role}
                       </span>
 
+                      {user.isVip && (
+                        <span className="rounded-full border border-fuchsia-500/30 bg-fuchsia-500/10 px-4 py-2 text-sm font-semibold text-fuchsia-300">
+                          VIP
+                        </span>
+                      )}
+
                       {!isSelf && (
                         <ToggleRoleUserButton
                           userId={user.id}
                           role={user.role}
+                        />
+                      )}
+
+                      {!isSelf && (
+                        <ToggleVipUserButton
+                          userId={user.id}
+                          isVip={user.isVip}
                         />
                       )}
 

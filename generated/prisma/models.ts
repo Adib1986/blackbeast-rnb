@@ -11,4 +11,6 @@
 export type * from './models/User'
 export type * from './models/Category'
 export type * from './models/Thread'
+export type * from './models/Reply'
+export type * from './models/Song'
 export type * from './commonInputTypes'

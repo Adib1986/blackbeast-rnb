@@ -192,6 +192,7 @@ export type ThreadWhereInput = {
   authorId?: Prisma.StringFilter<"Thread"> | string
   category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>
   author?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  replies?: Prisma.ReplyListRelationFilter
 }
 
 export type ThreadOrderByWithRelationInput = {
@@ -203,6 +204,7 @@ export type ThreadOrderByWithRelationInput = {
   authorId?: Prisma.SortOrder
   category?: Prisma.CategoryOrderByWithRelationInput
   author?: Prisma.UserOrderByWithRelationInput
+  replies?: Prisma.ReplyOrderByRelationAggregateInput
 }
 
 export type ThreadWhereUniqueInput = Prisma.AtLeast<{
@@ -217,6 +219,7 @@ export type ThreadWhereUniqueInput = Prisma.AtLeast<{
   authorId?: Prisma.StringFilter<"Thread"> | string
   category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>
   author?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  replies?: Prisma.ReplyListRelationFilter
 }, "id">
 
 export type ThreadOrderByWithAggregationInput = {
@@ -250,6 +253,7 @@ export type ThreadCreateInput = {
   createdAt?: Date | string
   category: Prisma.CategoryCreateNestedOneWithoutThreadsInput
   author: Prisma.UserCreateNestedOneWithoutThreadsInput
+  replies?: Prisma.ReplyCreateNestedManyWithoutThreadInput
 }
 
 export type ThreadUncheckedCreateInput = {
@@ -259,6 +263,7 @@ export type ThreadUncheckedCreateInput = {
   createdAt?: Date | string
   categoryId: string
   authorId: string
+  replies?: Prisma.ReplyUncheckedCreateNestedManyWithoutThreadInput
 }
 
 export type ThreadUpdateInput = {
@@ -268,6 +273,7 @@ export type ThreadUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.CategoryUpdateOneRequiredWithoutThreadsNestedInput
   author?: Prisma.UserUpdateOneRequiredWithoutThreadsNestedInput
+  replies?: Prisma.ReplyUpdateManyWithoutThreadNestedInput
 }
 
 export type ThreadUncheckedUpdateInput = {
@@ -277,6 +283,7 @@ export type ThreadUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
+  replies?: Prisma.ReplyUncheckedUpdateManyWithoutThreadNestedInput
 }
 
 export type ThreadCreateManyInput = {
@@ -339,6 +346,11 @@ export type ThreadMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
+}
+
+export type ThreadScalarRelationFilter = {
+  is?: Prisma.ThreadWhereInput
+  isNot?: Prisma.ThreadWhereInput
 }
 
 export type ThreadCreateNestedManyWithoutAuthorInput = {
@@ -425,12 +437,27 @@ export type ThreadUncheckedUpdateManyWithoutCategoryNestedInput = {
   deleteMany?: Prisma.ThreadScalarWhereInput | Prisma.ThreadScalarWhereInput[]
 }
 
+export type ThreadCreateNestedOneWithoutRepliesInput = {
+  create?: Prisma.XOR<Prisma.ThreadCreateWithoutRepliesInput, Prisma.ThreadUncheckedCreateWithoutRepliesInput>
+  connectOrCreate?: Prisma.ThreadCreateOrConnectWithoutRepliesInput
+  connect?: Prisma.ThreadWhereUniqueInput
+}
+
+export type ThreadUpdateOneRequiredWithoutRepliesNestedInput = {
+  create?: Prisma.XOR<Prisma.ThreadCreateWithoutRepliesInput, Prisma.ThreadUncheckedCreateWithoutRepliesInput>
+  connectOrCreate?: Prisma.ThreadCreateOrConnectWithoutRepliesInput
+  upsert?: Prisma.ThreadUpsertWithoutRepliesInput
+  connect?: Prisma.ThreadWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ThreadUpdateToOneWithWhereWithoutRepliesInput, Prisma.ThreadUpdateWithoutRepliesInput>, Prisma.ThreadUncheckedUpdateWithoutRepliesInput>
+}
+
 export type ThreadCreateWithoutAuthorInput = {
   id?: string
   title: string
   content: string
   createdAt?: Date | string
   category: Prisma.CategoryCreateNestedOneWithoutThreadsInput
+  replies?: Prisma.ReplyCreateNestedManyWithoutThreadInput
 }
 
 export type ThreadUncheckedCreateWithoutAuthorInput = {
@@ -439,6 +466,7 @@ export type ThreadUncheckedCreateWithoutAuthorInput = {
   content: string
   createdAt?: Date | string
   categoryId: string
+  replies?: Prisma.ReplyUncheckedCreateNestedManyWithoutThreadInput
 }
 
 export type ThreadCreateOrConnectWithoutAuthorInput = {
@@ -484,6 +512,7 @@ export type ThreadCreateWithoutCategoryInput = {
   content: string
   createdAt?: Date | string
   author: Prisma.UserCreateNestedOneWithoutThreadsInput
+  replies?: Prisma.ReplyCreateNestedManyWithoutThreadInput
 }
 
 export type ThreadUncheckedCreateWithoutCategoryInput = {
@@ -492,6 +521,7 @@ export type ThreadUncheckedCreateWithoutCategoryInput = {
   content: string
   createdAt?: Date | string
   authorId: string
+  replies?: Prisma.ReplyUncheckedCreateNestedManyWithoutThreadInput
 }
 
 export type ThreadCreateOrConnectWithoutCategoryInput = {
@@ -519,6 +549,58 @@ export type ThreadUpdateManyWithWhereWithoutCategoryInput = {
   data: Prisma.XOR<Prisma.ThreadUpdateManyMutationInput, Prisma.ThreadUncheckedUpdateManyWithoutCategoryInput>
 }
 
+export type ThreadCreateWithoutRepliesInput = {
+  id?: string
+  title: string
+  content: string
+  createdAt?: Date | string
+  category: Prisma.CategoryCreateNestedOneWithoutThreadsInput
+  author: Prisma.UserCreateNestedOneWithoutThreadsInput
+}
+
+export type ThreadUncheckedCreateWithoutRepliesInput = {
+  id?: string
+  title: string
+  content: string
+  createdAt?: Date | string
+  categoryId: string
+  authorId: string
+}
+
+export type ThreadCreateOrConnectWithoutRepliesInput = {
+  where: Prisma.ThreadWhereUniqueInput
+  create: Prisma.XOR<Prisma.ThreadCreateWithoutRepliesInput, Prisma.ThreadUncheckedCreateWithoutRepliesInput>
+}
+
+export type ThreadUpsertWithoutRepliesInput = {
+  update: Prisma.XOR<Prisma.ThreadUpdateWithoutRepliesInput, Prisma.ThreadUncheckedUpdateWithoutRepliesInput>
+  create: Prisma.XOR<Prisma.ThreadCreateWithoutRepliesInput, Prisma.ThreadUncheckedCreateWithoutRepliesInput>
+  where?: Prisma.ThreadWhereInput
+}
+
+export type ThreadUpdateToOneWithWhereWithoutRepliesInput = {
+  where?: Prisma.ThreadWhereInput
+  data: Prisma.XOR<Prisma.ThreadUpdateWithoutRepliesInput, Prisma.ThreadUncheckedUpdateWithoutRepliesInput>
+}
+
+export type ThreadUpdateWithoutRepliesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  category?: Prisma.CategoryUpdateOneRequiredWithoutThreadsNestedInput
+  author?: Prisma.UserUpdateOneRequiredWithoutThreadsNestedInput
+}
+
+export type ThreadUncheckedUpdateWithoutRepliesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  authorId?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
 export type ThreadCreateManyAuthorInput = {
   id?: string
   title: string
@@ -533,6 +615,7 @@ export type ThreadUpdateWithoutAuthorInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.CategoryUpdateOneRequiredWithoutThreadsNestedInput
+  replies?: Prisma.ReplyUpdateManyWithoutThreadNestedInput
 }
 
 export type ThreadUncheckedUpdateWithoutAuthorInput = {
@@ -541,6 +624,7 @@ export type ThreadUncheckedUpdateWithoutAuthorInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  replies?: Prisma.ReplyUncheckedUpdateManyWithoutThreadNestedInput
 }
 
 export type ThreadUncheckedUpdateManyWithoutAuthorInput = {
@@ -565,6 +649,7 @@ export type ThreadUpdateWithoutCategoryInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   author?: Prisma.UserUpdateOneRequiredWithoutThreadsNestedInput
+  replies?: Prisma.ReplyUpdateManyWithoutThreadNestedInput
 }
 
 export type ThreadUncheckedUpdateWithoutCategoryInput = {
@@ -573,6 +658,7 @@ export type ThreadUncheckedUpdateWithoutCategoryInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
+  replies?: Prisma.ReplyUncheckedUpdateManyWithoutThreadNestedInput
 }
 
 export type ThreadUncheckedUpdateManyWithoutCategoryInput = {
@@ -584,6 +670,35 @@ export type ThreadUncheckedUpdateManyWithoutCategoryInput = {
 }
 
 
+/**
+ * Count Type ThreadCountOutputType
+ */
+
+export type ThreadCountOutputType = {
+  replies: number
+}
+
+export type ThreadCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  replies?: boolean | ThreadCountOutputTypeCountRepliesArgs
+}
+
+/**
+ * ThreadCountOutputType without action
+ */
+export type ThreadCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ThreadCountOutputType
+   */
+  select?: Prisma.ThreadCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ThreadCountOutputType without action
+ */
+export type ThreadCountOutputTypeCountRepliesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReplyWhereInput
+}
+
 
 export type ThreadSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -594,6 +709,8 @@ export type ThreadSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   authorId?: boolean
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  replies?: boolean | Prisma.Thread$repliesArgs<ExtArgs>
+  _count?: boolean | Prisma.ThreadCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["thread"]>
 
 export type ThreadSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -631,6 +748,8 @@ export type ThreadOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
 export type ThreadInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  replies?: boolean | Prisma.Thread$repliesArgs<ExtArgs>
+  _count?: boolean | Prisma.ThreadCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ThreadIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
@@ -646,6 +765,7 @@ export type $ThreadPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   objects: {
     category: Prisma.$CategoryPayload<ExtArgs>
     author: Prisma.$UserPayload<ExtArgs>
+    replies: Prisma.$ReplyPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1050,6 +1170,7 @@ export interface Prisma__ThreadClient<T, Null = never, ExtArgs extends runtime.T
   readonly [Symbol.toStringTag]: "PrismaPromise"
   category<T extends Prisma.CategoryDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CategoryDefaultArgs<ExtArgs>>): Prisma.Prisma__CategoryClient<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   author<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  replies<T extends Prisma.Thread$repliesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Thread$repliesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReplyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1476,6 +1597,30 @@ export type ThreadDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Limit how many Threads to delete.
    */
   limit?: number
+}
+
+/**
+ * Thread.replies
+ */
+export type Thread$repliesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Reply
+   */
+  select?: Prisma.ReplySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Reply
+   */
+  omit?: Prisma.ReplyOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ReplyInclude<ExtArgs> | null
+  where?: Prisma.ReplyWhereInput
+  orderBy?: Prisma.ReplyOrderByWithRelationInput | Prisma.ReplyOrderByWithRelationInput[]
+  cursor?: Prisma.ReplyWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ReplyScalarFieldEnum | Prisma.ReplyScalarFieldEnum[]
 }
 
 /**

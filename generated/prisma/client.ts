@@ -56,3 +56,13 @@ export type Category = Prisma.CategoryModel
  * 
  */
 export type Thread = Prisma.ThreadModel
+/**
+ * Model Reply
+ * 
+ */
+export type Reply = Prisma.ReplyModel
+/**
+ * Model Song
+ * 
+ */
+export type Song = Prisma.SongModel

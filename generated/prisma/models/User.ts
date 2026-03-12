@@ -215,6 +215,8 @@ export type UserWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   threads?: Prisma.ThreadListRelationFilter
+  replies?: Prisma.ReplyListRelationFilter
+  songs?: Prisma.SongListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -228,6 +230,8 @@ export type UserOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   threads?: Prisma.ThreadOrderByRelationAggregateInput
+  replies?: Prisma.ReplyOrderByRelationAggregateInput
+  songs?: Prisma.SongOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -244,6 +248,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   threads?: Prisma.ThreadListRelationFilter
+  replies?: Prisma.ReplyListRelationFilter
+  songs?: Prisma.SongListRelationFilter
 }, "id" | "username" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -287,6 +293,8 @@ export type UserCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   threads?: Prisma.ThreadCreateNestedManyWithoutAuthorInput
+  replies?: Prisma.ReplyCreateNestedManyWithoutAuthorInput
+  songs?: Prisma.SongCreateNestedManyWithoutUploaderInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -300,6 +308,8 @@ export type UserUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   threads?: Prisma.ThreadUncheckedCreateNestedManyWithoutAuthorInput
+  replies?: Prisma.ReplyUncheckedCreateNestedManyWithoutAuthorInput
+  songs?: Prisma.SongUncheckedCreateNestedManyWithoutUploaderInput
 }
 
 export type UserUpdateInput = {
@@ -313,6 +323,8 @@ export type UserUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   threads?: Prisma.ThreadUpdateManyWithoutAuthorNestedInput
+  replies?: Prisma.ReplyUpdateManyWithoutAuthorNestedInput
+  songs?: Prisma.SongUpdateManyWithoutUploaderNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -326,6 +338,8 @@ export type UserUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   threads?: Prisma.ThreadUncheckedUpdateManyWithoutAuthorNestedInput
+  replies?: Prisma.ReplyUncheckedUpdateManyWithoutAuthorNestedInput
+  songs?: Prisma.SongUncheckedUpdateManyWithoutUploaderNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -435,6 +449,34 @@ export type UserUpdateOneRequiredWithoutThreadsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutThreadsInput, Prisma.UserUpdateWithoutThreadsInput>, Prisma.UserUncheckedUpdateWithoutThreadsInput>
 }
 
+export type UserCreateNestedOneWithoutRepliesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRepliesInput, Prisma.UserUncheckedCreateWithoutRepliesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRepliesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutRepliesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRepliesInput, Prisma.UserUncheckedCreateWithoutRepliesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRepliesInput
+  upsert?: Prisma.UserUpsertWithoutRepliesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutRepliesInput, Prisma.UserUpdateWithoutRepliesInput>, Prisma.UserUncheckedUpdateWithoutRepliesInput>
+}
+
+export type UserCreateNestedOneWithoutSongsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSongsInput, Prisma.UserUncheckedCreateWithoutSongsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSongsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutSongsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSongsInput, Prisma.UserUncheckedCreateWithoutSongsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSongsInput
+  upsert?: Prisma.UserUpsertWithoutSongsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSongsInput, Prisma.UserUpdateWithoutSongsInput>, Prisma.UserUncheckedUpdateWithoutSongsInput>
+}
+
 export type UserCreateWithoutThreadsInput = {
   id?: string
   username: string
@@ -445,6 +487,8 @@ export type UserCreateWithoutThreadsInput = {
   isBlocked?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  replies?: Prisma.ReplyCreateNestedManyWithoutAuthorInput
+  songs?: Prisma.SongCreateNestedManyWithoutUploaderInput
 }
 
 export type UserUncheckedCreateWithoutThreadsInput = {
@@ -457,6 +501,8 @@ export type UserUncheckedCreateWithoutThreadsInput = {
   isBlocked?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  replies?: Prisma.ReplyUncheckedCreateNestedManyWithoutAuthorInput
+  songs?: Prisma.SongUncheckedCreateNestedManyWithoutUploaderInput
 }
 
 export type UserCreateOrConnectWithoutThreadsInput = {
@@ -485,6 +531,8 @@ export type UserUpdateWithoutThreadsInput = {
   isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  replies?: Prisma.ReplyUpdateManyWithoutAuthorNestedInput
+  songs?: Prisma.SongUpdateManyWithoutUploaderNestedInput
 }
 
 export type UserUncheckedUpdateWithoutThreadsInput = {
@@ -497,6 +545,152 @@ export type UserUncheckedUpdateWithoutThreadsInput = {
   isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  replies?: Prisma.ReplyUncheckedUpdateManyWithoutAuthorNestedInput
+  songs?: Prisma.SongUncheckedUpdateManyWithoutUploaderNestedInput
+}
+
+export type UserCreateWithoutRepliesInput = {
+  id?: string
+  username: string
+  email: string
+  passwordHash: string
+  role?: $Enums.Role
+  approved?: boolean
+  isBlocked?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  threads?: Prisma.ThreadCreateNestedManyWithoutAuthorInput
+  songs?: Prisma.SongCreateNestedManyWithoutUploaderInput
+}
+
+export type UserUncheckedCreateWithoutRepliesInput = {
+  id?: string
+  username: string
+  email: string
+  passwordHash: string
+  role?: $Enums.Role
+  approved?: boolean
+  isBlocked?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  threads?: Prisma.ThreadUncheckedCreateNestedManyWithoutAuthorInput
+  songs?: Prisma.SongUncheckedCreateNestedManyWithoutUploaderInput
+}
+
+export type UserCreateOrConnectWithoutRepliesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutRepliesInput, Prisma.UserUncheckedCreateWithoutRepliesInput>
+}
+
+export type UserUpsertWithoutRepliesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutRepliesInput, Prisma.UserUncheckedUpdateWithoutRepliesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutRepliesInput, Prisma.UserUncheckedCreateWithoutRepliesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutRepliesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutRepliesInput, Prisma.UserUncheckedUpdateWithoutRepliesInput>
+}
+
+export type UserUpdateWithoutRepliesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  threads?: Prisma.ThreadUpdateManyWithoutAuthorNestedInput
+  songs?: Prisma.SongUpdateManyWithoutUploaderNestedInput
+}
+
+export type UserUncheckedUpdateWithoutRepliesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  threads?: Prisma.ThreadUncheckedUpdateManyWithoutAuthorNestedInput
+  songs?: Prisma.SongUncheckedUpdateManyWithoutUploaderNestedInput
+}
+
+export type UserCreateWithoutSongsInput = {
+  id?: string
+  username: string
+  email: string
+  passwordHash: string
+  role?: $Enums.Role
+  approved?: boolean
+  isBlocked?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  threads?: Prisma.ThreadCreateNestedManyWithoutAuthorInput
+  replies?: Prisma.ReplyCreateNestedManyWithoutAuthorInput
+}
+
+export type UserUncheckedCreateWithoutSongsInput = {
+  id?: string
+  username: string
+  email: string
+  passwordHash: string
+  role?: $Enums.Role
+  approved?: boolean
+  isBlocked?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  threads?: Prisma.ThreadUncheckedCreateNestedManyWithoutAuthorInput
+  replies?: Prisma.ReplyUncheckedCreateNestedManyWithoutAuthorInput
+}
+
+export type UserCreateOrConnectWithoutSongsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutSongsInput, Prisma.UserUncheckedCreateWithoutSongsInput>
+}
+
+export type UserUpsertWithoutSongsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutSongsInput, Prisma.UserUncheckedUpdateWithoutSongsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSongsInput, Prisma.UserUncheckedCreateWithoutSongsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutSongsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutSongsInput, Prisma.UserUncheckedUpdateWithoutSongsInput>
+}
+
+export type UserUpdateWithoutSongsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  threads?: Prisma.ThreadUpdateManyWithoutAuthorNestedInput
+  replies?: Prisma.ReplyUpdateManyWithoutAuthorNestedInput
+}
+
+export type UserUncheckedUpdateWithoutSongsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBlocked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  threads?: Prisma.ThreadUncheckedUpdateManyWithoutAuthorNestedInput
+  replies?: Prisma.ReplyUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 
@@ -506,10 +700,14 @@ export type UserUncheckedUpdateWithoutThreadsInput = {
 
 export type UserCountOutputType = {
   threads: number
+  replies: number
+  songs: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   threads?: boolean | UserCountOutputTypeCountThreadsArgs
+  replies?: boolean | UserCountOutputTypeCountRepliesArgs
+  songs?: boolean | UserCountOutputTypeCountSongsArgs
 }
 
 /**
@@ -529,6 +727,20 @@ export type UserCountOutputTypeCountThreadsArgs<ExtArgs extends runtime.Types.Ex
   where?: Prisma.ThreadWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountRepliesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReplyWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountSongsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SongWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -541,6 +753,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   updatedAt?: boolean
   threads?: boolean | Prisma.User$threadsArgs<ExtArgs>
+  replies?: boolean | Prisma.User$repliesArgs<ExtArgs>
+  songs?: boolean | Prisma.User$songsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -583,6 +797,8 @@ export type UserSelectScalar = {
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "email" | "passwordHash" | "role" | "approved" | "isBlocked" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   threads?: boolean | Prisma.User$threadsArgs<ExtArgs>
+  replies?: boolean | Prisma.User$repliesArgs<ExtArgs>
+  songs?: boolean | Prisma.User$songsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -592,6 +808,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "User"
   objects: {
     threads: Prisma.$ThreadPayload<ExtArgs>[]
+    replies: Prisma.$ReplyPayload<ExtArgs>[]
+    songs: Prisma.$SongPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -998,6 +1216,8 @@ readonly fields: UserFieldRefs;
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   threads<T extends Prisma.User$threadsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$threadsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ThreadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  replies<T extends Prisma.User$repliesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$repliesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReplyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  songs<T extends Prisma.User$songsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$songsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SongPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1443,6 +1663,54 @@ export type User$threadsArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.ThreadScalarFieldEnum | Prisma.ThreadScalarFieldEnum[]
+}
+
+/**
+ * User.replies
+ */
+export type User$repliesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Reply
+   */
+  select?: Prisma.ReplySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Reply
+   */
+  omit?: Prisma.ReplyOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ReplyInclude<ExtArgs> | null
+  where?: Prisma.ReplyWhereInput
+  orderBy?: Prisma.ReplyOrderByWithRelationInput | Prisma.ReplyOrderByWithRelationInput[]
+  cursor?: Prisma.ReplyWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ReplyScalarFieldEnum | Prisma.ReplyScalarFieldEnum[]
+}
+
+/**
+ * User.songs
+ */
+export type User$songsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Song
+   */
+  select?: Prisma.SongSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Song
+   */
+  omit?: Prisma.SongOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SongInclude<ExtArgs> | null
+  where?: Prisma.SongWhereInput
+  orderBy?: Prisma.SongOrderByWithRelationInput | Prisma.SongOrderByWithRelationInput[]
+  cursor?: Prisma.SongWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SongScalarFieldEnum | Prisma.SongScalarFieldEnum[]
 }
 
 /**
