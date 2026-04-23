@@ -15,13 +15,12 @@ model User {
   role          Role     @default(USER)
   approved      Boolean  @default(false)
   isBlocked     Boolean  @default(false)
-  isVip         Boolean  @default(false)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
   threads       Thread[]
   replies       Reply[]
-  songs         Song[]
+  tracks        Track[]
 }
 
 model Category {
@@ -60,14 +59,15 @@ model Reply {
   author    User     @relation(fields: [authorId], references: [id])
 }
 
-model Song {
-  id         String   @id @default(cuid())
-  title      String
-  fileUrl    String
-  createdAt  DateTime @default(now())
+model Track {
+  id           String   @id @default(cuid())
+  title        String
+  fileUrl      String
+  originalName String
+  createdAt    DateTime @default(now())
 
-  uploaderId String
-  uploader   User     @relation(fields: [uploaderId], references: [id])
+  authorId     String
+  author       User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
 }
 
 enum Role {

@@ -1,5 +1,5 @@
 import "./globals.css";
-import Providers from "@/components/providers";
+import { SessionProvider } from "next-auth/react";
 
 export const metadata = {
   title: "BlackBeast RNB",
@@ -14,7 +14,7 @@ export default function RootLayout({
   return (
     <html lang="de">
       <body>
-        <Providers>{children}</Providers>
+        <SessionProvider>{children}</SessionProvider>
       </body>
     </html>
   );

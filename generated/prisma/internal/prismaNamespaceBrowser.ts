@@ -55,7 +55,7 @@ export const ModelName = {
   Category: 'Category',
   Thread: 'Thread',
   Reply: 'Reply',
-  Song: 'Song'
+  Track: 'Track'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -119,15 +119,16 @@ export const ReplyScalarFieldEnum = {
 export type ReplyScalarFieldEnum = (typeof ReplyScalarFieldEnum)[keyof typeof ReplyScalarFieldEnum]
 
 
-export const SongScalarFieldEnum = {
+export const TrackScalarFieldEnum = {
   id: 'id',
   title: 'title',
   fileUrl: 'fileUrl',
+  originalName: 'originalName',
   createdAt: 'createdAt',
-  uploaderId: 'uploaderId'
+  authorId: 'authorId'
 } as const
 
-export type SongScalarFieldEnum = (typeof SongScalarFieldEnum)[keyof typeof SongScalarFieldEnum]
+export type TrackScalarFieldEnum = (typeof TrackScalarFieldEnum)[keyof typeof TrackScalarFieldEnum]
 
 
 export const SortOrder = {

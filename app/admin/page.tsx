@@ -2,12 +2,13 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import LogoutButton from "@/components/logout-button";
-import ApproveUserButton from "@/components/approve-user-button";
-import DeleteUserButton from "@/components/delete-user-button";
-import ToggleBlockUserButton from "@/components/toggle-block-user-button";
-import ToggleRoleUserButton from "@/components/toggle-role-user-button";
-import ToggleVipUserButton from "@/components/toggle-vip-user-button";
+import AdminUserActions from "@/components/admin-user-actions";
+
+type SessionUser = {
+  name?: string | null;
+  email?: string | null;
+  role?: string | null;
+};
 
 export default async function AdminPage() {
   const session = await auth();
@@ -16,259 +17,115 @@ export default async function AdminPage() {
     redirect("/login");
   }
 
-  if (session.user.role !== "ADMIN") {
+  const user = session.user as SessionUser;
+
+  if (user.role !== "ADMIN") {
     redirect("/forum");
   }
 
-  const pendingUsers = await prisma.user.findMany({
-    where: {
-      approved: false,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
-
-  const allUsers = await prisma.user.findMany({
+  const users = await prisma.user.findMany({
     orderBy: {
       createdAt: "desc",
     },
   });
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-black via-zinc-950 to-black px-6 py-12 text-white">
-      <section className="mx-auto max-w-6xl">
-        <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div>
-            <p className="mb-3 inline-block rounded-full border border-yellow-500/30 bg-yellow-500/10 px-4 py-1 text-sm uppercase tracking-[0.25em] text-yellow-300">
-              Admin Area
-            </p>
-
-            <h1 className="text-4xl font-extrabold tracking-tight text-yellow-400 md:text-6xl">
-              BlackBeast Admin
-            </h1>
-
-            <p className="mt-3 text-zinc-300">
-              Willkommen zurück,{" "}
-              <span className="font-semibold text-yellow-300">
-                {session.user.name}
-              </span>
-            </p>
-
-            <p className="mt-1 text-sm text-zinc-500">
-              Rolle: {session.user.role}
-            </p>
-          </div>
-
-          <div className="flex flex-wrap gap-3">
-            <Link
-              href="/forum"
-              className="rounded-2xl border border-yellow-500/30 bg-yellow-500/10 px-5 py-3 font-semibold text-yellow-300 transition hover:scale-105"
-            >
-              Zum Forum
-            </Link>
-
-            <Link
-              href="/vip"
-              className="rounded-2xl border border-fuchsia-500/30 bg-fuchsia-500/10 px-5 py-3 font-semibold text-fuchsia-300 transition hover:scale-105"
-            >
-              VIP Area
-            </Link>
-
-            <LogoutButton />
-          </div>
+    <main className="min-h-screen overflow-hidden bg-[#050505] text-white">
+      <div className="relative min-h-screen">
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute left-[-120px] top-[-120px] h-[320px] w-[320px] rounded-full bg-fuchsia-700/20 blur-3xl" />
+          <div className="absolute right-[-100px] top-[120px] h-[260px] w-[260px] rounded-full bg-violet-600/20 blur-3xl" />
+          <div className="absolute bottom-[-120px] left-[20%] h-[280px] w-[280px] rounded-full bg-purple-900/20 blur-3xl" />
+          <div className="absolute bottom-[10%] right-[10%] h-[220px] w-[220px] rounded-full bg-white/5 blur-3xl" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(168,85,247,0.14),transparent_30%),radial-gradient(circle_at_bottom,rgba(217,70,239,0.08),transparent_35%)]" />
         </div>
 
-        <div className="mb-8 grid gap-4 md:grid-cols-4">
-          <div className="rounded-3xl border border-zinc-800 bg-zinc-900/70 p-5 shadow-2xl">
-            <p className="text-sm uppercase tracking-[0.2em] text-zinc-500">
-              Gesamt
-            </p>
-            <p className="mt-3 text-3xl font-extrabold text-white">
-              {allUsers.length}
-            </p>
-            <p className="mt-2 text-sm text-zinc-400">Alle registrierten User</p>
-          </div>
+        <div className="relative z-10 mx-auto w-full max-w-6xl px-6 py-8">
+          <div className="mb-8 rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_0_40px_rgba(168,85,247,0.08)] backdrop-blur-md">
+            <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+              <div>
+                <p className="mb-2 text-xs font-semibold uppercase tracking-[0.35em] text-fuchsia-300/80">
+                  BlackBeast RNB
+                </p>
 
-          <div className="rounded-3xl border border-zinc-800 bg-zinc-900/70 p-5 shadow-2xl">
-            <p className="text-sm uppercase tracking-[0.2em] text-zinc-500">
-              Wartend
-            </p>
-            <p className="mt-3 text-3xl font-extrabold text-orange-300">
-              {pendingUsers.length}
-            </p>
-            <p className="mt-2 text-sm text-zinc-400">
-              Noch nicht freigeschaltet
-            </p>
-          </div>
+                <h1 className="bg-gradient-to-r from-white via-fuchsia-200 to-violet-300 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent sm:text-4xl">
+                  Admin Panel
+                </h1>
 
-          <div className="rounded-3xl border border-zinc-800 bg-zinc-900/70 p-5 shadow-2xl">
-            <p className="text-sm uppercase tracking-[0.2em] text-zinc-500">
-              Admins
-            </p>
-            <p className="mt-3 text-3xl font-extrabold text-yellow-300">
-              {allUsers.filter((user) => user.role === "ADMIN").length}
-            </p>
-            <p className="mt-2 text-sm text-zinc-400">User mit Admin-Rechten</p>
-          </div>
+                <p className="mt-3 text-sm text-zinc-300">
+                  Benutzer verwalten, freischalten und blockieren.
+                </p>
+              </div>
 
-          <div className="rounded-3xl border border-zinc-800 bg-zinc-900/70 p-5 shadow-2xl">
-            <p className="text-sm uppercase tracking-[0.2em] text-zinc-500">
-              VIP
-            </p>
-            <p className="mt-3 text-3xl font-extrabold text-fuchsia-300">
-              {allUsers.filter((user) => user.isVip).length}
-            </p>
-            <p className="mt-2 text-sm text-zinc-400">VIP freigeschaltete User</p>
-          </div>
-        </div>
-
-        <div className="mb-8 rounded-3xl border border-zinc-800 bg-zinc-900/70 p-6 shadow-2xl">
-          <div className="mb-6">
-            <h2 className="text-2xl font-bold text-white">Wartende User</h2>
-            <p className="mt-2 text-sm text-zinc-400">
-              Hier siehst du alle neu registrierten User, die noch nicht freigeschaltet wurden.
-            </p>
-          </div>
-
-          {pendingUsers.length === 0 ? (
-            <div className="rounded-2xl border border-zinc-800 bg-black/30 px-4 py-6 text-center text-zinc-400">
-              Aktuell warten keine User auf Freischaltung.
-            </div>
-          ) : (
-            <div className="space-y-4">
-              {pendingUsers.map((user) => (
-                <div
-                  key={user.id}
-                  className="flex flex-col gap-4 rounded-2xl border border-zinc-800 bg-black/30 p-4 md:flex-row md:items-center md:justify-between"
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <Link
+                  href="/forum"
+                  className="inline-flex items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-white transition hover:border-fuchsia-400/30 hover:bg-white/10"
                 >
-                  <div>
-                    <p className="text-lg font-semibold text-yellow-300">
-                      {user.username}
-                    </p>
-                    <p className="text-sm text-zinc-300">{user.email}</p>
-                    <p className="mt-1 text-xs text-zinc-500">
-                      Registriert am: {new Date(user.createdAt).toLocaleString("de-DE")}
-                    </p>
-                  </div>
-
-                  <div className="flex flex-wrap items-center gap-3">
-                    <span className="rounded-full border border-orange-500/30 bg-orange-500/10 px-4 py-2 text-sm font-semibold text-orange-300">
-                      Wartet auf Freischaltung
-                    </span>
-
-                    <ApproveUserButton userId={user.id} />
-                    <DeleteUserButton userId={user.id} />
-                  </div>
-                </div>
-              ))}
+                  Back to Forum
+                </Link>
+              </div>
             </div>
-          )}
-        </div>
-
-        <div className="rounded-3xl border border-zinc-800 bg-zinc-900/70 p-6 shadow-2xl">
-          <div className="mb-6">
-            <h2 className="text-2xl font-bold text-white">Alle User</h2>
-            <p className="mt-2 text-sm text-zinc-400">
-              Übersicht aller registrierten Mitglieder im BlackBeast RNB Board.
-            </p>
           </div>
 
-          {allUsers.length === 0 ? (
-            <div className="rounded-2xl border border-zinc-800 bg-black/30 px-4 py-6 text-center text-zinc-400">
-              Es sind noch keine User vorhanden.
-            </div>
-          ) : (
-            <div className="space-y-4">
-              {allUsers.map((user) => {
-                const isSelf = user.id === session.user.id;
+          <section className="rounded-[28px] border border-white/10 bg-gradient-to-br from-white/8 to-white/[0.03] p-6 shadow-[0_0_30px_rgba(168,85,247,0.08)] backdrop-blur-md">
+            <h2 className="mb-5 text-2xl font-bold text-white">
+              Benutzer
+            </h2>
 
-                return (
+            {users.length === 0 ? (
+              <div className="rounded-2xl border border-white/10 bg-black/20 p-5 text-zinc-300">
+                Keine Benutzer gefunden.
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {users.map((listedUser) => (
                   <div
-                    key={user.id}
-                    className="flex flex-col gap-4 rounded-2xl border border-zinc-800 bg-black/30 p-4 md:flex-row md:items-center md:justify-between"
+                    key={listedUser.id}
+                    className="rounded-2xl border border-white/10 bg-black/20 p-5"
                   >
-                    <div>
-                      <p className="text-lg font-semibold text-yellow-300">
-                        {user.username}
-                      </p>
-                      <p className="text-sm text-zinc-300">{user.email}</p>
-                      <p className="mt-1 text-xs text-zinc-500">
-                        Registriert am: {new Date(user.createdAt).toLocaleString("de-DE")}
-                      </p>
-                    </div>
+                    <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                      <div>
+                        <p className="text-lg font-semibold text-white">
+                          {listedUser.username}
+                        </p>
 
-                    <div className="flex flex-wrap items-center gap-3">
-                      <span
-                        className={`rounded-full px-4 py-2 text-sm font-semibold ${
-                          user.isBlocked
-                            ? "border border-red-500/30 bg-red-500/10 text-red-300"
-                            : user.approved
-                            ? "border border-green-500/30 bg-green-500/10 text-green-300"
-                            : "border border-orange-500/30 bg-orange-500/10 text-orange-300"
-                        }`}
-                      >
-                        {user.isBlocked
-                          ? "Gesperrt"
-                          : user.approved
-                          ? "Freigeschaltet"
-                          : "Wartend"}
-                      </span>
+                        <p className="mt-1 text-sm text-zinc-400">
+                          {listedUser.email}
+                        </p>
 
-                      <span
-                        className={`rounded-full px-4 py-2 text-sm font-semibold ${
-                          user.role === "ADMIN"
-                            ? "border border-yellow-500/30 bg-yellow-500/10 text-yellow-300"
-                            : "border border-zinc-700 bg-zinc-800 text-zinc-300"
-                        }`}
-                      >
-                        {user.role}
-                      </span>
+                        <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-zinc-300">
+                          <span className="rounded-full border border-zinc-700 bg-zinc-900/70 px-3 py-1">
+                            Role: {listedUser.role}
+                          </span>
 
-                      {user.isVip && (
-                        <span className="rounded-full border border-fuchsia-500/30 bg-fuchsia-500/10 px-4 py-2 text-sm font-semibold text-fuchsia-300">
-                          VIP
-                        </span>
-                      )}
+                          <span className="rounded-full border border-zinc-700 bg-zinc-900/70 px-3 py-1">
+                            Approved: {listedUser.approved ? "Yes" : "No"}
+                          </span>
 
-                      {!isSelf && (
-                        <ToggleRoleUserButton
-                          userId={user.id}
-                          role={user.role}
-                        />
-                      )}
+                          <span className="rounded-full border border-zinc-700 bg-zinc-900/70 px-3 py-1">
+                            Blocked: {listedUser.isBlocked ? "Yes" : "No"}
+                          </span>
 
-                      {!isSelf && (
-                        <ToggleVipUserButton
-                          userId={user.id}
-                          isVip={user.isVip}
-                        />
-                      )}
+                          <span className="rounded-full border border-zinc-700 bg-zinc-900/70 px-3 py-1">
+                            {new Date(listedUser.createdAt).toLocaleDateString("de-DE")}
+                          </span>
+                        </div>
+                      </div>
 
-                      {!isSelf && (
-                        <ToggleBlockUserButton
-                          userId={user.id}
-                          isBlocked={user.isBlocked}
-                        />
-                      )}
-
-                      {!isSelf && user.role !== "ADMIN" && (
-                        <DeleteUserButton userId={user.id} />
-                      )}
-
-                      {isSelf && (
-                        <span className="rounded-full border border-cyan-500/30 bg-cyan-500/10 px-4 py-2 text-sm font-semibold text-cyan-300">
-                          Dein Account
-                        </span>
-                      )}
+                      <AdminUserActions
+                        userId={listedUser.id}
+                        approved={listedUser.approved}
+                        isBlocked={listedUser.isBlocked}
+                      />
                     </div>
                   </div>
-                );
-              })}
-            </div>
-          )}
+                ))}
+              </div>
+            )}
+          </section>
         </div>
-      </section>
+      </div>
     </main>
   );
 }

@@ -38,7 +38,7 @@ export type Thread = Prisma.ThreadModel
  */
 export type Reply = Prisma.ReplyModel
 /**
- * Model Song
+ * Model Track
  * 
  */
-export type Song = Prisma.SongModel
+export type Track = Prisma.TrackModel
