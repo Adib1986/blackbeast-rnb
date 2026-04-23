@@ -476,6 +476,7 @@ export type ThreadCreateOrConnectWithoutAuthorInput = {
 
 export type ThreadCreateManyAuthorInputEnvelope = {
   data: Prisma.ThreadCreateManyAuthorInput | Prisma.ThreadCreateManyAuthorInput[]
+  skipDuplicates?: boolean
 }
 
 export type ThreadUpsertWithWhereUniqueWithoutAuthorInput = {
@@ -531,6 +532,7 @@ export type ThreadCreateOrConnectWithoutCategoryInput = {
 
 export type ThreadCreateManyCategoryInputEnvelope = {
   data: Prisma.ThreadCreateManyCategoryInput | Prisma.ThreadCreateManyCategoryInput[]
+  skipDuplicates?: boolean
 }
 
 export type ThreadUpsertWithWhereUniqueWithoutCategoryInput = {
@@ -1440,6 +1442,7 @@ export type ThreadCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * The data used to create many Threads.
    */
   data: Prisma.ThreadCreateManyInput | Prisma.ThreadCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1458,6 +1461,7 @@ export type ThreadCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensio
    * The data used to create many Threads.
    */
   data: Prisma.ThreadCreateManyInput | Prisma.ThreadCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */

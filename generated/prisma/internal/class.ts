@@ -19,8 +19,8 @@ const config: runtime.GetPrismaClientConfig = {
   "previewFeatures": [],
   "clientVersion": "7.8.0",
   "engineVersion": "3c6e192761c0362d496ed980de936e2f3cebcd3a",
-  "activeProvider": "sqlite",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"sqlite\"\n}\n\nmodel User {\n  id           String   @id @default(cuid())\n  username     String   @unique\n  email        String   @unique\n  passwordHash String\n  role         Role     @default(USER)\n  approved     Boolean  @default(false)\n  isBlocked    Boolean  @default(false)\n  createdAt    DateTime @default(now())\n  updatedAt    DateTime @updatedAt\n\n  threads Thread[]\n  replies Reply[]\n  tracks  Track[]\n}\n\nmodel Category {\n  id        String   @id @default(cuid())\n  name      String\n  slug      String   @unique\n  createdAt DateTime @default(now())\n\n  threads Thread[]\n}\n\nmodel Thread {\n  id        String   @id @default(cuid())\n  title     String\n  content   String\n  createdAt DateTime @default(now())\n\n  categoryId String\n  category   Category @relation(fields: [categoryId], references: [id])\n\n  authorId String\n  author   User   @relation(fields: [authorId], references: [id])\n\n  replies Reply[]\n}\n\nmodel Reply {\n  id        String   @id @default(cuid())\n  content   String\n  createdAt DateTime @default(now())\n\n  threadId String\n  thread   Thread @relation(fields: [threadId], references: [id], onDelete: Cascade)\n\n  authorId String\n  author   User   @relation(fields: [authorId], references: [id])\n}\n\nmodel Track {\n  id           String   @id @default(cuid())\n  title        String\n  fileUrl      String\n  originalName String\n  createdAt    DateTime @default(now())\n\n  authorId String\n  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)\n}\n\nenum Role {\n  USER\n  ADMIN\n}\n",
+  "activeProvider": "postgresql",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel User {\n  id           String   @id @default(cuid())\n  username     String   @unique\n  email        String   @unique\n  passwordHash String\n  role         Role     @default(USER)\n  approved     Boolean  @default(false)\n  isBlocked    Boolean  @default(false)\n  createdAt    DateTime @default(now())\n  updatedAt    DateTime @updatedAt\n\n  threads Thread[]\n  replies Reply[]\n  tracks  Track[]\n}\n\nmodel Category {\n  id        String   @id @default(cuid())\n  name      String\n  slug      String   @unique\n  createdAt DateTime @default(now())\n\n  threads Thread[]\n}\n\nmodel Thread {\n  id        String   @id @default(cuid())\n  title     String\n  content   String\n  createdAt DateTime @default(now())\n\n  categoryId String\n  category   Category @relation(fields: [categoryId], references: [id])\n\n  authorId String\n  author   User   @relation(fields: [authorId], references: [id])\n\n  replies Reply[]\n}\n\nmodel Reply {\n  id        String   @id @default(cuid())\n  content   String\n  createdAt DateTime @default(now())\n\n  threadId String\n  thread   Thread @relation(fields: [threadId], references: [id], onDelete: Cascade)\n\n  authorId String\n  author   User   @relation(fields: [authorId], references: [id])\n}\n\nmodel Track {\n  id           String   @id @default(cuid())\n  title        String\n  fileUrl      String\n  originalName String\n  createdAt    DateTime @default(now())\n\n  authorId String\n  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)\n}\n\nenum Role {\n  USER\n  ADMIN\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -45,10 +45,10 @@ async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Modul
 }
 
 config.compilerWasm = {
-  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_fast_bg.sqlite.mjs"),
+  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.mjs"),
 
   getQueryCompilerWasmModule: async () => {
-    const { wasm } = await import("@prisma/client/runtime/query_compiler_fast_bg.sqlite.wasm-base64.mjs")
+    const { wasm } = await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.wasm-base64.mjs")
     return await decodeBase64AsWasm(wasm)
   },
 

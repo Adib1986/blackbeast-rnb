@@ -424,6 +424,7 @@ export type ReplyCreateOrConnectWithoutAuthorInput = {
 
 export type ReplyCreateManyAuthorInputEnvelope = {
   data: Prisma.ReplyCreateManyAuthorInput | Prisma.ReplyCreateManyAuthorInput[]
+  skipDuplicates?: boolean
 }
 
 export type ReplyUpsertWithWhereUniqueWithoutAuthorInput = {
@@ -474,6 +475,7 @@ export type ReplyCreateOrConnectWithoutThreadInput = {
 
 export type ReplyCreateManyThreadInputEnvelope = {
   data: Prisma.ReplyCreateManyThreadInput | Prisma.ReplyCreateManyThreadInput[]
+  skipDuplicates?: boolean
 }
 
 export type ReplyUpsertWithWhereUniqueWithoutThreadInput = {
@@ -1278,6 +1280,7 @@ export type ReplyCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * The data used to create many Replies.
    */
   data: Prisma.ReplyCreateManyInput | Prisma.ReplyCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1296,6 +1299,7 @@ export type ReplyCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extension
    * The data used to create many Replies.
    */
   data: Prisma.ReplyCreateManyInput | Prisma.ReplyCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */
