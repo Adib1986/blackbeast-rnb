@@ -16,20 +16,34 @@ export async function POST(request: Request) {
 
     if (!parsed.success) {
       return NextResponse.json(
+        { error: "Bitte gültigen Username, E-Mail und Passwort (mind. 6 Zeichen) angeben." },
+        { status: 400 }
+      );
+    }
+
+    const username = parsed.data.username.trim();
+    const email = parsed.data.email.trim().toLowerCase();
+    const { password } = parsed.data;
+
+    if (username.length < 3) {
+      return NextResponse.json(
         { error: "Invalid input data." },
         { status: 400 }
       );
     }
 
-    const { username, email, password } = parsed.data;
-
-    const existingByEmail = await prisma.user.findUnique({
-      where: { email },
+    const existingByEmail = await prisma.user.findFirst({
+      where: {
+        email: {
+          equals: email,
+          mode: "insensitive",
+        },
+      },
     });
 
     if (existingByEmail) {
       return NextResponse.json(
-        { error: "Email already registered." },
+        { error: "Diese E-Mail ist bereits registriert." },
         { status: 409 }
       );
     }
@@ -40,7 +54,7 @@ export async function POST(request: Request) {
 
     if (existingByUsername) {
       return NextResponse.json(
-        { error: "Username already taken." },
+        { error: "Dieser Username ist bereits vergeben." },
         { status: 409 }
       );
     }
@@ -58,14 +72,14 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json(
-      { message: "Account created. Waiting for admin approval." },
+      { message: "Account erstellt. Warte auf Freischaltung durch einen Admin." },
       { status: 201 }
     );
   } catch (error) {
     console.error("REGISTER_ERROR", error);
 
     return NextResponse.json(
-      { error: "Server error during registration." },
+      { error: "Serverfehler bei der Registrierung." },
       { status: 500 }
     );
   }

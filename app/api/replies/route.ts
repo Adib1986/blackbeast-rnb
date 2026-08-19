@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { requireMemberApi } from "@/lib/current-user";
 
 type CreateReplyBody = {
   content?: string;
@@ -9,53 +9,25 @@ type CreateReplyBody = {
 
 export async function POST(request: Request) {
   try {
-    const session = await auth();
+    const member = await requireMemberApi();
 
-    if (!session?.user) {
-      return NextResponse.json(
-        { error: "Nicht eingeloggt." },
-        { status: 401 }
-      );
+    if (member.error) {
+      return member.error;
     }
 
     const body = (await request.json()) as CreateReplyBody;
-
     const content = String(body.content ?? "").trim();
     const threadId = String(body.threadId ?? "").trim();
 
-    if (!content || !threadId) {
+    if (content.length < 2 || !threadId) {
       return NextResponse.json(
         { error: "Inhalt und Thread sind erforderlich." },
         { status: 400 }
       );
     }
 
-    const sessionEmail = String(session.user.email ?? "").trim();
-
-    if (!sessionEmail) {
-      return NextResponse.json(
-        { error: "Kein Benutzer in der Session gefunden." },
-        { status: 401 }
-      );
-    }
-
-    const dbUser = await prisma.user.findFirst({
-      where: {
-        email: sessionEmail,
-      },
-    });
-
-    if (!dbUser) {
-      return NextResponse.json(
-        { error: "Benutzer wurde in der Datenbank nicht gefunden." },
-        { status: 404 }
-      );
-    }
-
     const thread = await prisma.thread.findUnique({
-      where: {
-        id: threadId,
-      },
+      where: { id: threadId },
     });
 
     if (!thread) {
@@ -68,7 +40,7 @@ export async function POST(request: Request) {
     const reply = await prisma.reply.create({
       data: {
         content,
-        authorId: dbUser.id,
+        authorId: member.user.id,
         threadId: thread.id,
       },
     });

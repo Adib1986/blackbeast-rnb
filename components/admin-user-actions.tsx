@@ -7,12 +7,14 @@ type AdminUserActionsProps = {
   userId: string;
   approved: boolean;
   isBlocked: boolean;
+  isSelf?: boolean;
 };
 
 export default function AdminUserActions({
   userId,
   approved,
   isBlocked,
+  isSelf = false,
 }: AdminUserActionsProps) {
   const router = useRouter();
   const [loadingAction, setLoadingAction] = useState<string | null>(null);
@@ -60,18 +62,18 @@ export default function AdminUserActions({
           disabled={loadingAction !== null}
           className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {loadingAction === "approve" ? "..." : "Approve"}
+          {loadingAction === "approve" ? "..." : "Freischalten"}
         </button>
       )}
 
-      {!isBlocked ? (
+      {isSelf ? null : !isBlocked ? (
         <button
           type="button"
           onClick={() => runAction("block")}
           disabled={loadingAction !== null}
           className="rounded-xl bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-500 disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {loadingAction === "block" ? "..." : "Block"}
+          {loadingAction === "block" ? "..." : "Sperren"}
         </button>
       ) : (
         <button
@@ -80,7 +82,7 @@ export default function AdminUserActions({
           disabled={loadingAction !== null}
           className="rounded-xl bg-yellow-500 px-4 py-2 text-sm font-semibold text-black hover:bg-yellow-400 disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {loadingAction === "unblock" ? "..." : "Unblock"}
+          {loadingAction === "unblock" ? "..." : "Entsperren"}
         </button>
       )}
     </div>

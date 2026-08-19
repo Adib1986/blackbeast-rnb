@@ -1,8 +1,8 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { getRequiredMember } from "@/lib/current-user";
 
 type ReplyActionInput = {
   replyId: string;
@@ -14,32 +14,12 @@ type UpdateReplyInput = ReplyActionInput & {
   content: string;
 };
 
-async function getCurrentUser() {
-  const session = await auth();
-
-  const email = session?.user?.email;
-
-  if (!email) {
-    throw new Error("Nicht angemeldet.");
-  }
-
-  const user = await prisma.user.findUnique({
-    where: { email },
-  });
-
-  if (!user) {
-    throw new Error("User nicht gefunden.");
-  }
-
-  return user;
-}
-
 export async function deleteReplyAction({
   replyId,
   categorySlug,
   threadId,
 }: ReplyActionInput) {
-  const user = await getCurrentUser();
+  const user = await getRequiredMember();
 
   const reply = await prisma.reply.findUnique({
     where: { id: replyId },
@@ -69,7 +49,12 @@ export async function updateReplyAction({
   categorySlug,
   threadId,
 }: UpdateReplyInput) {
-  const user = await getCurrentUser();
+  const user = await getRequiredMember();
+  const nextContent = content.trim();
+
+  if (!nextContent) {
+    throw new Error("Antwort darf nicht leer sein.");
+  }
 
   const reply = await prisma.reply.findUnique({
     where: { id: replyId },
@@ -89,7 +74,7 @@ export async function updateReplyAction({
   await prisma.reply.update({
     where: { id: replyId },
     data: {
-      content: content.trim(),
+      content: nextContent,
     },
   });
 

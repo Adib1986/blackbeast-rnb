@@ -56,7 +56,10 @@ export default function CreateThreadForm({
         return;
       }
 
-      router.push(`/forum/${categorySlug}`);
+      const nextId = data?.threadId;
+      router.push(
+        nextId ? `/forum/${categorySlug}/${nextId}` : `/forum/${categorySlug}`
+      );
       router.refresh();
     } catch (error) {
       console.error("CREATE THREAD FORM ERROR:", error);

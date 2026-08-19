@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { requireMemberApi } from "@/lib/current-user";
 
 type CreateThreadBody = {
   title?: string;
@@ -10,54 +10,26 @@ type CreateThreadBody = {
 
 export async function POST(request: Request) {
   try {
-    const session = await auth();
+    const member = await requireMemberApi();
 
-    if (!session?.user) {
-      return NextResponse.json(
-        { error: "Nicht eingeloggt." },
-        { status: 401 }
-      );
+    if (member.error) {
+      return member.error;
     }
 
     const body = (await request.json()) as CreateThreadBody;
-
     const title = String(body.title ?? "").trim();
     const content = String(body.content ?? "").trim();
     const categoryId = String(body.categoryId ?? "").trim();
 
-    if (!title || !content || !categoryId) {
+    if (title.length < 3 || content.length < 5 || !categoryId) {
       return NextResponse.json(
-        { error: "Titel, Inhalt und Kategorie sind erforderlich." },
+        { error: "Titel (mind. 3 Zeichen), Inhalt (mind. 5) und Kategorie sind nötig." },
         { status: 400 }
       );
     }
 
-    const sessionEmail = String(session.user.email ?? "").trim();
-
-    if (!sessionEmail) {
-      return NextResponse.json(
-        { error: "Kein Benutzer in der Session gefunden." },
-        { status: 401 }
-      );
-    }
-
-    const dbUser = await prisma.user.findFirst({
-      where: {
-        email: sessionEmail,
-      },
-    });
-
-    if (!dbUser) {
-      return NextResponse.json(
-        { error: "Benutzer wurde in der Datenbank nicht gefunden." },
-        { status: 404 }
-      );
-    }
-
     const category = await prisma.category.findUnique({
-      where: {
-        id: categoryId,
-      },
+      where: { id: categoryId },
     });
 
     if (!category) {
@@ -71,7 +43,7 @@ export async function POST(request: Request) {
       data: {
         title,
         content,
-        authorId: dbUser.id,
+        authorId: member.user.id,
         categoryId: category.id,
       },
     });
