@@ -38,6 +38,9 @@
     "types/**/*.d.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "BACKUP-WORKING-2026",
+    "scripts/create-online-admin.ts",
+    "scripts/sync-local-to-online.ts"
   ]
 }
