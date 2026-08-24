@@ -83,7 +83,11 @@ export default function CreateThreadForm({
           type="text"
           value={title}
           onChange={(event) => setTitle(event.target.value)}
-          placeholder="Gib deinem Thread einen Titel"
+          placeholder={
+            categorySlug === "vorstellung"
+              ? "z. B. Hey, ich bin ..."
+              : "Gib deinem Thread einen Titel"
+          }
           className="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-white outline-none transition placeholder:text-zinc-500 focus:border-fuchsia-400/40"
         />
       </div>
@@ -100,7 +104,11 @@ export default function CreateThreadForm({
           id="content"
           value={content}
           onChange={(event) => setContent(event.target.value)}
-          placeholder="Worum geht es in deinem Thread?"
+          placeholder={
+            categorySlug === "vorstellung"
+              ? "Erzähl kurz, wer du bist, welche Musik du machst oder hörst."
+              : "Worum geht es in deinem Thread?"
+          }
           rows={8}
           className="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-white outline-none transition placeholder:text-zinc-500 focus:border-fuchsia-400/40"
         />
@@ -118,7 +126,11 @@ export default function CreateThreadForm({
           disabled={isSubmitting}
           className="inline-flex items-center justify-center rounded-2xl border border-fuchsia-400/20 bg-gradient-to-r from-fuchsia-600/20 to-violet-600/20 px-5 py-3 text-sm font-semibold text-white transition hover:border-fuchsia-300/40 hover:shadow-[0_0_25px_rgba(168,85,247,0.18)] disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {isSubmitting ? "Wird erstellt..." : "Thread erstellen"}
+          {isSubmitting
+            ? "Wird erstellt..."
+            : categorySlug === "vorstellung"
+              ? "Vorstellung posten"
+              : "Thread erstellen"}
         </button>
       </div>
     </form>

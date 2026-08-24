@@ -61,7 +61,12 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                 <h1 className="bg-gradient-to-r from-white via-fuchsia-200 to-violet-300 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent sm:text-4xl">
                   {category.name}
                 </h1>
-                <p className="mt-3 text-sm text-zinc-300">
+                {category.description ? (
+                  <p className="mt-3 text-sm text-zinc-300">
+                    {category.description}
+                  </p>
+                ) : null}
+                <p className="mt-2 text-sm text-zinc-400">
                   {category.threads.length} Threads in diesem Board.
                 </p>
               </div>
@@ -89,7 +94,9 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                 Noch keine Threads in diesem Board.
               </p>
               <p className="mt-2 text-sm text-zinc-400">
-                Eröffne die erste Diskussion.
+                {category.slug === "vorstellung"
+                  ? "Stell dich vor und begrüße die Community."
+                  : "Eröffne die erste Diskussion."}
               </p>
             </div>
           ) : (

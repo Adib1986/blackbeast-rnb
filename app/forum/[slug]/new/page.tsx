@@ -45,7 +45,10 @@ export default async function NewThreadPage({ params }: NewThreadPageProps) {
                   {category.name}
                 </h1>
                 <p className="mt-3 text-sm text-zinc-300">
-                  Starte eine Diskussion in diesem Board.
+                  {category.slug === "vorstellung"
+                    ? "Stell dich vor: Wer bist du, was hörst du, woran arbeitest du?"
+                    : category.description ||
+                      "Starte eine Diskussion in diesem Board."}
                 </p>
               </div>
               <Link

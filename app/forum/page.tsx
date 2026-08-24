@@ -1,25 +1,27 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { requireMember } from "@/lib/current-user";
-import { ensureDefaultCategories } from "@/lib/ensure-categories";
+import { ensureDefaultCategories, sortCategories } from "@/lib/ensure-categories";
 import { SITE_NAME } from "@/lib/site";
 
 export default async function ForumPage() {
   const { user } = await requireMember();
   await ensureDefaultCategories();
 
-  const categories = await prisma.category.findMany({
-    orderBy: {
-      createdAt: "asc",
-    },
-    include: {
-      _count: {
-        select: {
-          threads: true,
+  const categories = sortCategories(
+    await prisma.category.findMany({
+      orderBy: {
+        createdAt: "asc",
+      },
+      include: {
+        _count: {
+          select: {
+            threads: true,
+          },
         },
       },
-    },
-  });
+    })
+  );
 
   return (
     <main className="min-h-screen overflow-hidden bg-[#050505] text-white">
@@ -74,6 +76,11 @@ export default async function ForumPage() {
                     <h4 className="text-xl font-bold text-white transition group-hover:text-amber-200">
                       {category.name}
                     </h4>
+                    {category.description ? (
+                      <p className="mt-3 text-sm leading-6 text-zinc-300">
+                        {category.description}
+                      </p>
+                    ) : null}
                     <p className="mt-6 flex items-center text-sm font-medium text-amber-200">
                       Zum Board
                       <span className="ml-2 transition group-hover:translate-x-1">

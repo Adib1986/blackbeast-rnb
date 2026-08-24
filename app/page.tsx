@@ -1,25 +1,27 @@
 import Link from "next/link";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import { ensureDefaultCategories } from "@/lib/ensure-categories";
+import { ensureDefaultCategories, sortCategories } from "@/lib/ensure-categories";
 import { SITE_NAME } from "@/lib/site";
 
 export default async function HomePage() {
   const session = await auth();
   await ensureDefaultCategories();
 
-  const categories = await prisma.category.findMany({
-    orderBy: {
-      createdAt: "asc",
-    },
-    include: {
-      _count: {
-        select: {
-          threads: true,
+  const categories = sortCategories(
+    await prisma.category.findMany({
+      orderBy: {
+        createdAt: "asc",
+      },
+      include: {
+        _count: {
+          select: {
+            threads: true,
+          },
         },
       },
-    },
-  });
+    })
+  );
 
   const isLoggedIn = Boolean(session?.user);
 
@@ -94,6 +96,11 @@ export default async function HomePage() {
                     className="rounded-[26px] border border-white/10 bg-white/5 p-6 transition hover:-translate-y-1 hover:border-amber-400/40 hover:bg-white/10"
                   >
                     <h3 className="text-xl font-semibold">{category.name}</h3>
+                    {category.description ? (
+                      <p className="mt-3 text-sm leading-6 text-white/70">
+                        {category.description}
+                      </p>
+                    ) : null}
                     <p className="mt-3 text-sm text-white/60">
                       {category._count.threads} Threads
                     </p>
